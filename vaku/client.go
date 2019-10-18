@@ -25,3 +25,16 @@ func NewClientFromVaultClient(vc *vapi.Client) *Client {
 	vakuClient.Client = vc
 	return vakuClient
 }
+
+// CopyClient is a client for copy_v2.  The source is a client for the source of the copy,
+// target is a client for the target of the copy
+type CopyClient struct {
+	Source *Client
+	Target *Client
+}
+
+// NewCopyClient returns a new empty CopyClient.  Using this function requires
+// that you initialize and set the source / target client on your own.
+func NewCopyClient() *CopyClient {
+	return &CopyClient{}
+}

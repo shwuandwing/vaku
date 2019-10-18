@@ -16,6 +16,9 @@ import (
 
 // vgc is the vaku client used by CLI commands
 var vgc *vaku.Client
+var copyClient  *vaku.CopyClient
+var sourceVGC *vaku.Client
+var targetVGC *vaku.Client
 
 // authVGC initializes the vgc (vaku global client) to be used by all CLI commands
 func authVGC() {
@@ -47,6 +50,66 @@ func authVGC() {
 	// Add the Vault client to the Vaku client
 	vgc = vaku.NewClient()
 	vgc.Client = vclient
+}
+
+func authCopyClient() {
+	copyClient = vaku.NewCopyClient()
+
+	vapiConfig := vapi.DefaultConfig()
+
+	if sourceAddress == "" {
+		fmt.Println("Source address is not defined")
+		os.Exit(1)
+	}
+
+	vapiConfig.Address = sourceAddress
+
+	// Initialize a new vault client
+	vclient, err := vapi.NewClient(vapiConfig)
+	if err != nil {
+		fmt.Println(errors.Wrap(err, "Failed to create vault client"))
+		os.Exit(1)
+	}
+
+	vclient.SetNamespace(sourceNamespace)
+
+	if sourceToken == "" {
+		fmt.Println("Source token is not defined")
+		os.Exit(1)
+	}
+
+	vclient.SetToken(sourceToken)
+
+	copyClient.Source = vaku.NewClient()
+	copyClient.Source.Client = vclient
+
+	vapiConfig = vapi.DefaultConfig()
+
+	if targetAddress == "" {
+		fmt.Println("Target address is not defined")
+		os.Exit(1)
+	}
+
+	vapiConfig.Address = targetNamespace
+
+	// Initialize a new vault client
+	vclient, err = vapi.NewClient(vapiConfig)
+	if err != nil {
+		fmt.Println(errors.Wrap(err, "Failed to create vault client"))
+		os.Exit(1)
+	}
+
+	vclient.SetNamespace(targetNamespace)
+
+	if targetToken == "" {
+		fmt.Println("Target token is not defined")
+		os.Exit(1)
+	}
+
+	vclient.SetToken(targetToken)
+
+	copyClient.Target = vaku.NewClient()
+	copyClient.Target.Client = vclient
 }
 
 func print(i map[string]interface{}) {
