@@ -88,7 +88,7 @@ func authCopyClient() {
 		os.Exit(1)
 	}
 
-	vapiConfig.Address = targetNamespace
+	vapiConfig.Address = targetAddress
 
 	// Initialize a new vault client
 	vclient, err = vapi.NewClient(vapiConfig)
