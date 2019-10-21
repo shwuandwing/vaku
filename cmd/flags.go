@@ -18,3 +18,5 @@ var sourceNamespace string
 var targetAddress string
 var targetToken string
 var targetNamespace string
+
+var useSourceTarget bool
