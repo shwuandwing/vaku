@@ -37,7 +37,8 @@ Example:
 			fmt.Printf("%s", errors.Wrapf(err, "Failed to copy folder %s to %s", args[0], args[1]))
 		} else {
 			print(map[string]interface{}{
-				args[0]: fmt.Sprintf("Successfully copied folder %s to %s", args[0], args[1])})
+				args[0]: fmt.Sprintf("Successfully copied folder %s to %s", args[0], args[1]),
+			})
 		}
 	},
 }
