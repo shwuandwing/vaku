@@ -50,6 +50,8 @@ func authVGC() {
 	vgc.Client = vclient
 }
 
+// authCopyClient initializes the copyClient to be used by the CLI copy commands when user needs to specify
+// different source address/namespace/token from target address/namespace/token
 func authCopyClient() {
 	copyClient = vaku.NewCopyClient()
 
